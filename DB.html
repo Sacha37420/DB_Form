@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système d'Onglets et Burger Menu Esthétique</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #6c63ff, #836fff);
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* Burger menu */
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        .burger-menu span {
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #fdd835;
+        }
+
+        /* Responsive : burger menu */
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: flex;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                background-color: #6c63ff;
+                position: absolute;
+                top: 70px;
+                right: 20px;
+                width: 200px;
+                padding: 10px 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+        }
+
+        /* Styles des onglets */
+        .tabs {
+            margin: 30px auto;
+            max-width: 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f0f0f0;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-buttons button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: #f0f0f0;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .tab-buttons button:hover {
+            background: #ddd;
+        }
+
+        .tab-buttons button.active {
+            background: #6c63ff;
+            color: white;
+        }
+
+        .tab-content {
+            position:relative;
+            padding: 20px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Contenu des onglets */
+        .tab-content p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            width: 100px;
+            height: 50px;
+            text-align: center;
+        }
+        .draggable {
+            cursor: grab;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+        .droppable {
+            min-height: 50px;
+        }
+        .droppable.highlight {
+            background-color: #e0f7fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header avec burger menu -->
+    <header>
+        <h1>Mon Site Esthétique</h1>
+        <div class="burger-menu" id="burger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul id="menu">
+                <li><a href="#tab1">CSV</a></li>
+                <li><a href="#tab2">JSON</a></li>
+                <li><a href="#tab3">Excel</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Section des onglets -->
+    <div class="draggable" draggable="true" id="item1">Élément 1</div>
+    <div class="draggable" draggable="true" id="item2">Élément 2</div>
+    <div class="draggable" draggable="true" id="item3">Élément 3</div>
+    <div class="draggable" draggable="true" id="item1">Élément 1</div>
+    <div class="draggable" draggable="true" id="item2">Élément 2</div>
+    <div class="draggable" draggable="true" id="item3">Élément 3</div>
+    <div class="draggable" draggable="true" id="item1">Élément 1</div>
+    <div class="draggable" draggable="true" id="item2">Élément 2</div>
+    <div class="draggable" draggable="true" id="item3">Élément 3</div>
+    <div class="draggable" draggable="true" id="item1">Élément 1</div>
+    <div class="draggable" draggable="true" id="item2">Élément 2</div>
+    <div class="draggable" draggable="true" id="item3">Élément 3</div>
+    <div class="tabs">
+        <div class="tab-buttons">
+            <button class="active" data-tab="tab1">Accueil</button>
+            <button data-tab="tab2">Services</button>
+            <button data-tab="tab3">Contact</button>
+            <button data-tab="tab4">Accueil</button>
+            <button data-tab="tab5">Services</button>
+            <button data-tab="tab6">Contact</button>
+            <button data-tab="tab7">Accueil</button>
+            <button data-tab="tab8">Services</button>
+            <button data-tab="tab9">Contact</button>
+            <button data-tab="tab10">Accueil</button>
+            <button data-tab="tab11">Services</button>
+            <button data-tab="tab12">Contact</button>
+            <button data-tab="tab13">Accueil</button>
+            <button data-tab="tab14">Services</button>
+            <button data-tab="tab15">Contact</button>
+        </div>
+        <div class="tab-content active" id="tab1" style="overflow:auto">
+            <table >
+                <tr>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                </tr>
+                <tr>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                </tr>
+                <tr>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                    <td class="droppable"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-content" id="tab2">
+            <p>Nous offrons une variété de services adaptés à vos besoins. Consultez nos offres dès aujourd'hui !</p>
+        </div>
+        <div class="tab-content" id="tab3">
+            <p>Vous pouvez nous joindre par téléphone, email ou via notre formulaire de contact. Nous sommes là pour vous aider.</p>
+        </div>
+        <div class="tab-content" id="tab4">
+            <p>Bienvenue sur notre site ! Découvrez nos services et contactez-nous pour plus d'informations.</p>
+        </div>
+        <div class="tab-content" id="tab5">
+            <p>Nous offrons une variété de services adaptés à vos besoins. Consultez nos offres dès aujourd'hui !</p>
+        </div>
+        <div class="tab-content" id="tab6">
+            <p>Vous pouvez nous joindre par téléphone, email ou via notre formulaire de contact. Nous sommes là pour vous aider.</p>
+        </div>
+        <div class="tab-content" id="tab7">
+            <p>Bienvenue sur notre site ! Découvrez nos services et contactez-nous pour plus d'informations.</p>
+        </div>
+        <div class="tab-content" id="tab8">
+            <p>Nous offrons une variété de services adaptés à vos besoins. Consultez nos offres dès aujourd'hui !</p>
+        </div>
+        <div class="tab-content" id="tab9">
+            <p>Vous pouvez nous joindre par téléphone, email ou via notre formulaire de contact. Nous sommes là pour vous aider.</p>
+        </div>
+        <div class="tab-content" id="tab10">
+            <p>Bienvenue sur notre site ! Découvrez nos services et contactez-nous pour plus d'informations.</p>
+        </div>
+        <div class="tab-content" id="tab11">
+            <p>Nous offrons une variété de services adaptés à vos besoins. Consultez nos offres dès aujourd'hui !</p>
+        </div>
+        <div class="tab-content" id="tab12">
+            <p>Vous pouvez nous joindre par téléphone, email ou via notre formulaire de contact. Nous sommes là pour vous aider.</p>
+        </div>
+        <div class="tab-content" id="tab13">
+            <p>Bienvenue sur notre site ! Découvrez nos services et contactez-nous pour plus d'informations.</p>
+        </div>
+        <div class="tab-content" id="tab14">
+            <p>Nous offrons une variété de services adaptés à vos besoins. Consultez nos offres dès aujourd'hui !</p>
+        </div>
+        <div class="tab-content" id="tab15">
+            <p>Vous pouvez nous joindre par téléphone, email ou via notre formulaire de contact. Nous sommes là pour vous aider.</p>
+        </div>
+    </div>
+
+    <script>
+        // Gestion du burger menu
+        const burgerMenu = document.getElementById('burger-menu');
+        const menu = document.getElementById('menu');
+
+        burgerMenu.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+
+        // Gestion des onglets
+        const tabButtons = document.querySelectorAll('.tab-buttons button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Réinitialisation
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Activation de l'onglet correspondant
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
+        const draggables = document.querySelectorAll('.draggable');
+        const droppables = document.querySelectorAll('.droppable');
+
+        draggables.forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.id);
+                setTimeout(() => {
+                    e.target.style.display = 'none';
+                }, 0);
+            });
+
+            item.addEventListener('dragend', (e) => {
+                e.target.style.display = 'block';
+            });
+        });
+
+        droppables.forEach(cell => {
+            cell.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                cell.classList.add('highlight');
+            });
+
+            cell.addEventListener('dragleave', () => {
+                cell.classList.remove('highlight');
+            });
+
+            cell.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const draggableId = e.dataTransfer.getData('text/plain');
+                const draggable = document.getElementById(draggableId);
+                cell.classList.remove('highlight');
+                if (!cell.hasChildNodes()) {
+                    cell.appendChild(draggable);
+                }
+            });
+        });
+        function expand_table(table){
+            var max_i=0;
+            var max_j=0;
+            for (let i=0;i<table.rows.length;i++){
+                for (let j=0;j<table.rows[i].cells.length;j++){
+                    if (!(table.rows[i].cells[j].innerHTML==="")){
+                        max_i = Math.max(max_i,i);
+                        max_j = Math.max(max_j,j);
+                    };
+                };
+            };
+            for (let i=0;i<table.rows.length;i++){
+                
+            }
+
+        }
+    </script>
+</body>
+</html>

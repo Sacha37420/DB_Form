@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grille Gamétique avec Objets Redimensionnables</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 100px); /* Ajuster pour changer la taille des colonnes */
+            grid-template-rows: repeat(5, 100px); /* Ajuster pour changer la taille des lignes */
+            gap: 2px;
+            justify-content: center;
+            margin: 20px auto;
+            width: fit-content;
+        }
+        .grid-cell {
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        .draggable {
+            position: absolute;
+            cursor: grab;
+            border: 2px solid #888;
+            background-color: #d4e7fa;
+            resize: both; /* Permet de redimensionner */
+            overflow: auto;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Grille Gamétique avec Objets Redimensionnables</h1>
+<p style="text-align: center;">Glissez les objets sur la grille, puis redimensionnez-les pour qu'ils couvrent plusieurs cellules.</p>
+
+<div class="grid-container" id="grid">
+    <!-- Génération dynamique des cellules -->
+    <div class="grid-cell" id="cell-1"></div>
+    <div class="grid-cell" id="cell-2"></div>
+    <div class="grid-cell" id="cell-3"></div>
+    <div class="grid-cell" id="cell-4"></div>
+    <div class="grid-cell" id="cell-5"></div>
+    <div class="grid-cell" id="cell-6"></div>
+    <div class="grid-cell" id="cell-7"></div>
+    <div class="grid-cell" id="cell-8"></div>
+    <div class="grid-cell" id="cell-9"></div>
+    <div class="grid-cell" id="cell-10"></div>
+    <div class="grid-cell" id="cell-11"></div>
+    <div class="grid-cell" id="cell-12"></div>
+    <div class="grid-cell" id="cell-13"></div>
+    <div class="grid-cell" id="cell-14"></div>
+    <div class="grid-cell" id="cell-15"></div>
+    <div class="grid-cell" id="cell-16"></div>
+    <div class="grid-cell" id="cell-17"></div>
+    <div class="grid-cell" id="cell-18"></div>
+    <div class="grid-cell" id="cell-19"></div>
+    <div class="grid-cell" id="cell-20"></div>
+    <div class="grid-cell" id="cell-21"></div>
+    <div class="grid-cell" id="cell-22"></div>
+    <div class="grid-cell" id="cell-23"></div>
+    <div class="grid-cell" id="cell-24"></div>
+    <div class="grid-cell" id="cell-25"></div>
+</div>
+
+<div class="draggable" draggable="true" id="item1" style="width: 100px; height: 100px;">Objet 1</div>
+<div class="draggable" draggable="true" id="item2" style="width: 100px; height: 100px;">Objet 2</div>
+
+<script>
+    const draggables = document.querySelectorAll('.draggable');
+    const gridContainer = document.getElementById('grid');
+    const gridCellSize = 100; // Taille d'une cellule (en pixels)
+
+    draggables.forEach(draggable => {
+        // Permet le glisser-déposer des objets
+        draggable.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            setTimeout(() => {
+                draggable.style.display = 'none';
+            }, 0);
+        });
+
+        draggable.addEventListener('dragend', (e) => {
+            draggable.style.display = 'block';
+        });
+
+        // Ajuste la taille pour s'aligner sur les cellules après redimensionnement
+        draggable.addEventListener('mouseup', () => {
+            const rect = draggable.getBoundingClientRect();
+            const width = Math.round(rect.width / gridCellSize) * gridCellSize;
+            const height = Math.round(rect.height / gridCellSize) * gridCellSize;
+
+            draggable.style.width = `${width}px`;
+            draggable.style.height = `${height}px`;
+        });
+    });
+
+    // Permet de déposer les objets sur la grille
+    gridContainer.addEventListener('dragover', (e) => {
+        e.preventDefault();
+    });
+
+    gridContainer.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggableId = e.dataTransfer.getData('text/plain');
+        const draggable = document.getElementById(draggableId);
+
+        // Positionne l'objet dans la grille
+        const rect = gridContainer.getBoundingClientRect();
+        const x = Math.floor((e.clientX - rect.left) / gridCellSize) * gridCellSize;
+        const y = Math.floor((e.clientY - rect.top) / gridCellSize) * gridCellSize;
+
+        draggable.style.position = 'absolute';
+        draggable.style.left = `${x}px`;
+        draggable.style.top = `${y}px`;
+
+        gridContainer.appendChild(draggable);
+    });
+</script>
+
+</body>
+</html>
